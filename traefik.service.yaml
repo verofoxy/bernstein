@@ -1,0 +1,47 @@
+<<<<<<< HEAD
+bapiVersion: v1
+kind: Service
+metadata:
+  namespace: kube-public
+  name: traefik-service
+  labels:
+    app: traefik
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      targetPort: 80
+      port: 80
+      nodePort: 30021
+    - name: admin
+      protocol: TCP
+      port: 8080
+      nodePort: 30042
+      targetPort: 8080
+  selector:
+    app: traefik
+=======
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-ingress-service
+  namespace: kube-public
+  labels:
+    app: traefik
+spec:
+  selector:
+    k8s-app: traefik-ingress-lb
+  ports:
+    - name: cluster
+      protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30021
+    - name: cluster-admin
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30042
+  type: NodePort
+>>>>>>> 721cd0175a59b9e27b92b67c49ad2a4420fa88a4

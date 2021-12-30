@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik-deployment
+  namespace: kube-public
+  labels:
+    app: traefik
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: traefik-ingress-lb
+  template:
+    metadata:
+      labels:
+        k8s-app: traefik-ingress-lb
+        name: traefil-ingress-lb
+    spec:
+      serviceAccountName: traefik-ingress-controller
+      restartPolicy: Always
+      containers:
+        - name: traefik-ingress-lb
+          image: traefik:1.7
+          ports:
+            - name: cluster
+              protocol: TCP
+              containerPort: 80
+            - name: cluster-admin
+              protocol: TCP
+              containerPort: 8080
+          args:
+          - --api
+          - --kubernetes
+          - --logLevel=INFO
